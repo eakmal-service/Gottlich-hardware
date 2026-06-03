@@ -1,0 +1,292 @@
+/* Advanced Media Protection Styles for Gottlich Website */
+
+/* Disable text selection and drag for all media */
+img, video, canvas, svg {
+    -webkit-user-select: none !important;
+    -moz-user-select: none !important;
+    -ms-user-select: none !important;
+    user-select: none !important;
+    -webkit-user-drag: none !important;
+    -webkit-touch-callout: none !important;
+    pointer-events: auto !important;
+    -webkit-tap-highlight-color: transparent !important;
+}
+
+/* Disable drag and drop */
+img, video {
+    draggable: false !important;
+    -webkit-user-drag: none !important;
+    -khtml-user-drag: none !important;
+    -moz-user-drag: none !important;
+    -o-user-drag: none !important;
+    user-drag: none !important;
+}
+
+/* Hide image when dragged */
+img::-webkit-drag-placeholder {
+    display: none !important;
+}
+
+/* Disable selection on media containers */
+.hero-image,
+.product-item,
+.popular-item,
+.latest-item,
+.about-image {
+    -webkit-user-select: none !important;
+    -moz-user-select: none !important;
+    -ms-user-select: none !important;
+    user-select: none !important;
+    -webkit-touch-callout: none !important;
+}
+
+/* Protected media container */
+.protected-media {
+    position: relative !important;
+    display: inline-block !important;
+    overflow: hidden !important;
+}
+
+/* Invisible overlay for additional protection */
+.protected-media::before {
+    content: '' !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    background: transparent !important;
+    z-index: 10 !important;
+    pointer-events: auto !important;
+}
+
+/* Watermark overlay */
+.protected-media::after {
+    content: 'GOTTLICH' !important;
+    position: absolute !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) rotate(-45deg) !important;
+    font-size: clamp(16px, 4vw, 32px) !important;
+    font-weight: bold !important;
+    color: rgba(175, 106, 76, 0.15) !important;
+    pointer-events: none !important;
+    z-index: 15 !important;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.1) !important;
+    user-select: none !important;
+    white-space: nowrap !important;
+    letter-spacing: 2px !important;
+}
+
+/* Video specific protections */
+video {
+    -webkit-user-select: none !important;
+    -moz-user-select: none !important;
+    -ms-user-select: none !important;
+    user-select: none !important;
+    -webkit-touch-callout: none !important;
+}
+
+/* Hide video controls that allow downloading */
+video::-webkit-media-controls-download-button {
+    display: none !important;
+}
+
+video::-webkit-media-controls-fullscreen-button {
+    display: none !important;
+}
+
+/* Disable print styles for media */
+@media print {
+    img, video, canvas, svg {
+        display: none !important;
+        visibility: hidden !important;
+    }
+    
+    .hero-image,
+    .product-item img,
+    .popular-item img,
+    .latest-item img,
+    .about-image img {
+        display: none !important;
+        visibility: hidden !important;
+    }
+    
+    /* Show placeholder text instead */
+    .hero-image::after,
+    .product-item::after,
+    .popular-item::after,
+    .latest-item::after,
+    .about-image::after {
+        content: '[Image Protected - Visit gottlich.com]' !important;
+        display: block !important;
+        text-align: center !important;
+        padding: 20px !important;
+        background: #f5f5f5 !important;
+        color: #666 !important;
+        border: 2px dashed #ccc !important;
+    }
+}
+
+/* Disable context menu styling */
+.no-context-menu {
+    -webkit-touch-callout: none !important;
+    -webkit-user-select: none !important;
+    -khtml-user-select: none !important;
+    -moz-user-select: none !important;
+    -ms-user-select: none !important;
+    user-select: none !important;
+}
+
+/* Blur effect when dev tools detected */
+.dev-tools-detected {
+    filter: blur(10px) !important;
+    pointer-events: none !important;
+}
+
+/* Protection warning overlay */
+.protection-warning {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    background: rgba(0, 0, 0, 0.9) !important;
+    color: white !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    z-index: 999999 !important;
+    font-family: Arial, sans-serif !important;
+    text-align: center !important;
+}
+
+/* Mobile specific protections */
+@media (max-width: 768px) {
+    img, video {
+        -webkit-touch-callout: none !important;
+        -webkit-user-select: none !important;
+        -webkit-tap-highlight-color: transparent !important;
+    }
+    
+    /* Disable long press context menu on mobile */
+    img, video {
+        -webkit-touch-callout: none !important;
+        -webkit-user-select: none !important;
+        -khtml-user-select: none !important;
+        -moz-user-select: none !important;
+        -ms-user-select: none !important;
+        user-select: none !important;
+    }
+}
+
+/* Disable image save on iOS Safari */
+img {
+    -webkit-touch-callout: none !important;
+}
+
+/* Additional protection for background images */
+.hero-section,
+.products-section,
+.about-section {
+    -webkit-user-select: none !important;
+    -moz-user-select: none !important;
+    -ms-user-select: none !important;
+    user-select: none !important;
+}
+
+/* Protect slider images specifically */
+.slide img {
+    -webkit-user-select: none !important;
+    -moz-user-select: none !important;
+    -ms-user-select: none !important;
+    user-select: none !important;
+    -webkit-user-drag: none !important;
+    -webkit-touch-callout: none !important;
+    pointer-events: none !important;
+}
+
+.slide .hero-image {
+    pointer-events: auto !important;
+}
+
+/* Notification styles for protection messages */
+.protection-notification {
+    position: fixed !important;
+    top: 20px !important;
+    right: 20px !important;
+    background: linear-gradient(45deg, #AF6A4C, #D4956B) !important;
+    color: white !important;
+    padding: 15px 20px !important;
+    border-radius: 8px !important;
+    z-index: 99999 !important;
+    font-family: Arial, sans-serif !important;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3) !important;
+    animation: slideInRight 0.3s ease !important;
+    font-size: 14px !important;
+    font-weight: 500 !important;
+}
+
+@keyframes slideInRight {
+    from {
+        transform: translateX(100%) !important;
+        opacity: 0 !important;
+    }
+    to {
+        transform: translateX(0) !important;
+        opacity: 1 !important;
+    }
+}
+
+/* Hide elements that might reveal source */
+.hide-on-inspect {
+    display: none !important;
+    visibility: hidden !important;
+}
+
+/* Disable outline on focus for media elements */
+img:focus,
+video:focus {
+    outline: none !important;
+    border: none !important;
+}
+
+/* Additional security for high-value images */
+.premium-protected {
+    position: relative !important;
+    background: linear-gradient(45deg, transparent 25%, rgba(175, 106, 76, 0.05) 25%, rgba(175, 106, 76, 0.05) 50%, transparent 50%, transparent 75%, rgba(175, 106, 76, 0.05) 75%) !important;
+    background-size: 20px 20px !important;
+}
+
+.premium-protected::before {
+    content: '' !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    background: repeating-linear-gradient(
+        45deg,
+        transparent,
+        transparent 10px,
+        rgba(175, 106, 76, 0.03) 10px,
+        rgba(175, 106, 76, 0.03) 20px
+    ) !important;
+    pointer-events: none !important;
+    z-index: 5 !important;
+}
+
+/* Disable browser's built-in image viewer */
+img[src] {
+    max-width: 100% !important;
+    height: auto !important;
+    display: block !important;
+}
+
+/* Prevent image caching in some browsers */
+.no-cache {
+    -webkit-user-select: none !important;
+    -moz-user-select: none !important;
+    -ms-user-select: none !important;
+    user-select: none !important;
+}

@@ -1,0 +1,250 @@
+/* ===========================================
+   MOBILE-OPTIMIZED GRADIENT TEXT SOLUTION
+   =========================================== */
+
+/* Base gradient text styles */
+.hero-text h1 {
+    /* Fallback color - always visible */
+    color: #AF6A4C;
+    font-weight: 900;
+    text-transform: uppercase;
+    line-height: 1.1;
+    
+    /* Enhanced text shadow for better readability */
+    text-shadow: 
+        2px 2px 4px rgba(0, 0, 0, 0.3),
+        0 0 20px rgba(175, 106, 76, 0.4);
+    
+    /* Gradient background */
+    background: linear-gradient(45deg, #2C2C2C, #AF6A4C, #D4A574, #AF6A4C, #2C2C2C);
+    background-size: 300% 300%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: gradientShift 4s ease-in-out infinite;
+}
+
+/* Desktop (1024px+) - Full gradient effect */
+@media (min-width: 1024px) {
+    .hero-text h1 {
+        font-size: 5.5em;
+        letter-spacing: 3px;
+        /* Full complex gradient */
+        background: linear-gradient(45deg, #2C2C2C, #AF6A4C, #D4A574, #AF6A4C, #2C2C2C);
+        background-size: 300% 300%;
+    }
+}
+
+/* Tablet (768px - 1023px) - Optimized gradient */
+@media (max-width: 1023px) and (min-width: 768px) {
+    .hero-text h1 {
+        font-size: 3.5em;
+        letter-spacing: 2px;
+        /* Slightly simplified gradient for better rendering */
+        background: linear-gradient(45deg, #2C2C2C, #AF6A4C, #D4A574, #AF6A4C, #2C2C2C);
+        background-size: 250% 250%;
+        /* Enhanced shadow for tablet */
+        text-shadow: 
+            2px 2px 6px rgba(0, 0, 0, 0.25),
+            0 0 25px rgba(175, 106, 76, 0.5);
+    }
+}
+
+/* Mobile (481px - 767px) - High contrast gradient */
+@media (max-width: 767px) and (min-width: 481px) {
+    .hero-text h1 {
+        font-size: 2.5em;
+        letter-spacing: 1.5px;
+        /* High contrast gradient for better mobile visibility */
+        background: linear-gradient(45deg, #1a1a1a, #AF6A4C, #E6B887, #AF6A4C, #1a1a1a);
+        background-size: 200% 200%;
+        /* Stronger shadow for mobile readability */
+        text-shadow: 
+            3px 3px 8px rgba(0, 0, 0, 0.4),
+            0 0 30px rgba(175, 106, 76, 0.6),
+            0 0 15px rgba(255, 255, 255, 0.2);
+    }
+}
+
+/* Small Mobile (361px - 480px) - Simplified gradient */
+@media (max-width: 480px) and (min-width: 361px) {
+    .hero-text h1 {
+        font-size: 2.2em;
+        letter-spacing: 1px;
+        /* Simplified 3-color gradient for better compression */
+        background: linear-gradient(45deg, #2C2C2C, #AF6A4C, #2C2C2C);
+        background-size: 200% 200%;
+        /* Maximum shadow for readability */
+        text-shadow: 
+            4px 4px 10px rgba(0, 0, 0, 0.5),
+            0 0 35px rgba(175, 106, 76, 0.7),
+            0 0 20px rgba(255, 255, 255, 0.3);
+    }
+}
+
+/* Extra Small Mobile (360px and below) - Fallback with subtle gradient */
+@media (max-width: 360px) {
+    .hero-text h1 {
+        font-size: 1.9em;
+        letter-spacing: 0.5px;
+        /* Fallback: solid color with subtle gradient overlay */
+        color: #AF6A4C;
+        background: linear-gradient(45deg, #AF6A4C, #D4956B, #AF6A4C);
+        background-size: 150% 150%;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        /* Strong shadow ensures visibility even if gradient fails */
+        text-shadow: 
+            5px 5px 12px rgba(0, 0, 0, 0.6),
+            0 0 40px rgba(175, 106, 76, 0.8),
+            0 0 25px rgba(255, 255, 255, 0.4);
+    }
+    
+    /* Fallback for browsers that don't support background-clip */
+    .hero-text h1 {
+        background: none;
+        color: #AF6A4C;
+        -webkit-text-fill-color: #AF6A4C;
+    }
+    
+    /* Re-apply gradient for supporting browsers */
+    @supports (-webkit-background-clip: text) {
+        .hero-text h1 {
+            background: linear-gradient(45deg, #AF6A4C, #D4956B, #AF6A4C);
+            background-size: 150% 150%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    }
+}
+
+/* Enhanced gradient animation for mobile */
+@keyframes gradientShift {
+    0%, 100% {
+        background-position: 0% 50%;
+    }
+    25% {
+        background-position: 100% 0%;
+    }
+    50% {
+        background-position: 100% 100%;
+    }
+    75% {
+        background-position: 0% 100%;
+    }
+}
+
+/* Mobile-specific gradient animation (slower, more visible) */
+@media (max-width: 767px) {
+    .hero-text h1 {
+        animation: mobileGradientShift 6s ease-in-out infinite;
+    }
+}
+
+@keyframes mobileGradientShift {
+    0%, 100% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    .hero-text h1 {
+        background: none !important;
+        color: #AF6A4C !important;
+        -webkit-text-fill-color: #AF6A4C !important;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8) !important;
+    }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+    .hero-text h1 {
+        animation: none !important;
+    }
+}
+
+/* Dark mode optimization */
+@media (prefers-color-scheme: dark) {
+    .hero-text h1 {
+        /* Lighter gradient for dark backgrounds */
+        background: linear-gradient(45deg, #D4A574, #AF6A4C, #F5E6D3, #AF6A4C, #D4A574);
+        text-shadow: 
+            2px 2px 6px rgba(0, 0, 0, 0.8),
+            0 0 30px rgba(175, 106, 76, 0.6);
+    }
+}
+
+/* ===========================================
+   ALTERNATIVE SOLUTION: PROGRESSIVE ENHANCEMENT
+   =========================================== */
+
+/* Start with solid color, enhance with gradient */
+.hero-text-progressive h1 {
+    /* Base: solid color (always works) */
+    color: #AF6A4C;
+    font-weight: 900;
+    text-transform: uppercase;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* Add gradient for supporting browsers */
+@supports (-webkit-background-clip: text) {
+    .hero-text-progressive h1 {
+        background: linear-gradient(45deg, #2C2C2C, #AF6A4C, #D4A574, #AF6A4C, #2C2C2C);
+        background-size: 300% 300%;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        animation: gradientShift 4s ease-in-out infinite;
+    }
+}
+
+/* Mobile: Revert to solid color if needed */
+@media (max-width: 480px) {
+    @supports (-webkit-background-clip: text) {
+        .hero-text-progressive h1 {
+            /* Test if gradient is readable, fallback if not */
+            background: linear-gradient(45deg, #AF6A4C, #D4956B, #AF6A4C);
+            background-size: 200% 200%;
+        }
+    }
+}
+
+/* ===========================================
+   DEBUGGING UTILITIES
+   =========================================== */
+
+/* Add this class to test gradient visibility */
+.debug-gradient {
+    position: relative;
+}
+
+.debug-gradient::after {
+    content: 'Gradient Test';
+    position: absolute;
+    top: 100%;
+    left: 0;
+    font-size: 0.5em;
+    color: red;
+    background: white;
+    padding: 2px 4px;
+    border: 1px solid red;
+}
+
+/* ===========================================
+   USAGE EXAMPLES
+   =========================================== */
+
+/*
+HTML Usage:
+<h1 class="hero-text">Your Gradient Text</h1>
+
+Or with progressive enhancement:
+<h1 class="hero-text-progressive">Your Gradient Text</h1>
+
+For debugging:
+<h1 class="hero-text debug-gradient">Test Text</h1>
+*/

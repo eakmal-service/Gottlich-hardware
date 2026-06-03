@@ -1,0 +1,292 @@
+/* ===========================================
+   ACTUAL MOBILE GRADIENT FIX
+   Addresses the core issue: gradient compression
+   =========================================== */
+
+/* Base styles - Desktop first */
+.hero-text h1 {
+    /* Fallback color for safety */
+    color: #AF6A4C;
+    font-weight: 900;
+    text-transform: uppercase;
+    line-height: 1.1;
+    
+    /* Desktop gradient - works fine on large text */
+    background: linear-gradient(45deg, #2C2C2C, #AF6A4C, #D4A574, #AF6A4C, #2C2C2C);
+    background-size: 300% 300%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: gradientShift 4s ease-in-out infinite;
+}
+
+/* Desktop (1024px+) */
+@media (min-width: 1024px) {
+    .hero-text h1 {
+        font-size: 5.5em;
+        letter-spacing: 3px;
+        /* Keep original complex gradient for large text */
+        background: linear-gradient(45deg, #2C2C2C, #AF6A4C, #D4A574, #AF6A4C, #2C2C2C);
+        background-size: 300% 300%;
+        text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.15);
+    }
+}
+
+/* Tablet (768px - 1023px) */
+@media (max-width: 1023px) and (min-width: 768px) {
+    .hero-text h1 {
+        font-size: 3.5em;
+        letter-spacing: 2px;
+        /* Start lightening the gradient */
+        background: linear-gradient(45deg, #4A4A4A, #AF6A4C, #E6B887, #AF6A4C, #4A4A4A);
+        background-size: 250% 250%;
+        text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.2);
+    }
+}
+
+/* Mobile (481px - 767px) - BRIGHT GRADIENT */
+@media (max-width: 767px) and (min-width: 481px) {
+    .hero-text h1 {
+        font-size: 2.5em;
+        letter-spacing: 1.5px;
+        
+        /* SOLUTION: Much brighter gradient that won't compress to dark smudge */
+        background: linear-gradient(45deg, 
+            #8B6F47,    /* Lighter brown instead of #2C2C2C */
+            #D4956B,    /* Bright gold */
+            #F2D7B3,    /* Very light gold */
+            #D4956B,    /* Bright gold */
+            #8B6F47     /* Lighter brown */
+        );
+        background-size: 200% 200%;
+        
+        /* Strong text shadow for contrast */
+        text-shadow: 
+            2px 2px 8px rgba(0, 0, 0, 0.4),
+            0 0 20px rgba(175, 106, 76, 0.3);
+    }
+}
+
+/* Small Mobile (361px - 480px) - VERY BRIGHT GRADIENT */
+@media (max-width: 480px) and (min-width: 361px) {
+    .hero-text h1 {
+        font-size: 2.2em;
+        letter-spacing: 1px;
+        
+        /* SOLUTION: Even brighter, simpler gradient */
+        background: linear-gradient(45deg, 
+            #B8956F,    /* Light brown */
+            #E6B887,    /* Bright gold */
+            #F5E6D3,    /* Very light cream */
+            #E6B887,    /* Bright gold */
+            #B8956F     /* Light brown */
+        );
+        background-size: 180% 180%;
+        
+        /* Maximum contrast shadow */
+        text-shadow: 
+            3px 3px 10px rgba(0, 0, 0, 0.5),
+            0 0 25px rgba(175, 106, 76, 0.4),
+            1px 1px 3px rgba(0, 0, 0, 0.8);
+    }
+}
+
+/* Extra Small Mobile (≤360px) - SOLID COLOR FALLBACK */
+@media (max-width: 360px) {
+    .hero-text h1 {
+        font-size: 1.9em;
+        letter-spacing: 0.5px;
+        
+        /* SOLUTION: Solid color with subtle gradient overlay */
+        color: #AF6A4C !important;
+        background: linear-gradient(45deg, #D4956B, #F2D7B3, #D4956B);
+        background-size: 150% 150%;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        
+        /* Ensure visibility with strong shadow */
+        text-shadow: 
+            4px 4px 12px rgba(0, 0, 0, 0.6),
+            0 0 30px rgba(175, 106, 76, 0.5),
+            2px 2px 6px rgba(0, 0, 0, 0.9);
+    }
+    
+    /* Complete fallback for problematic browsers */
+    .hero-text h1::before {
+        content: attr(data-text);
+        position: absolute;
+        top: 0;
+        left: 0;
+        color: #AF6A4C;
+        background: none;
+        -webkit-text-fill-color: #AF6A4C;
+        z-index: -1;
+    }
+}
+
+/* ===========================================
+   ALTERNATIVE APPROACH: PROGRESSIVE ENHANCEMENT
+   =========================================== */
+
+/* Start with solid color, add gradient progressively */
+.hero-text-progressive h1 {
+    /* Base: Always visible solid color */
+    color: #AF6A4C;
+    font-weight: 900;
+    text-transform: uppercase;
+    text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+/* Add gradient only for larger screens */
+@media (min-width: 768px) {
+    .hero-text-progressive h1 {
+        background: linear-gradient(45deg, #2C2C2C, #AF6A4C, #D4A574, #AF6A4C, #2C2C2C);
+        background-size: 300% 300%;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        animation: gradientShift 4s ease-in-out infinite;
+    }
+}
+
+/* Mobile gets bright gradient or solid color */
+@media (max-width: 767px) {
+    .hero-text-progressive h1 {
+        /* Option 1: Bright gradient */
+        background: linear-gradient(45deg, #D4956B, #F2D7B3, #D4956B);
+        background-size: 200% 200%;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        animation: gradientShift 4s ease-in-out infinite;
+        
+        /* Strong shadow for readability */
+        text-shadow: 
+            3px 3px 8px rgba(0, 0, 0, 0.5),
+            0 0 20px rgba(175, 106, 76, 0.4);
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-text-progressive h1 {
+        /* Option 2: Solid color for very small screens */
+        background: none;
+        color: #AF6A4C;
+        -webkit-text-fill-color: #AF6A4C;
+        animation: none;
+        
+        /* Enhanced shadow for solid color */
+        text-shadow: 
+            4px 4px 10px rgba(0, 0, 0, 0.6),
+            0 0 25px rgba(175, 106, 76, 0.5);
+    }
+}
+
+/* ===========================================
+   DEBUGGING AND TESTING
+   =========================================== */
+
+/* Add this class to test gradient compression */
+.gradient-test {
+    position: relative;
+    border: 2px solid red;
+}
+
+.gradient-test::after {
+    content: 'Font: ' attr(data-size) ' | Screen: ' attr(data-screen);
+    position: absolute;
+    top: 100%;
+    left: 0;
+    font-size: 12px;
+    color: black;
+    background: yellow;
+    padding: 2px 4px;
+    white-space: nowrap;
+}
+
+/* ===========================================
+   KEYFRAME ANIMATIONS
+   =========================================== */
+
+@keyframes gradientShift {
+    0%, 100% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+}
+
+/* Slower animation for mobile (better visibility) */
+@media (max-width: 767px) {
+    .hero-text h1 {
+        animation: mobileGradientShift 6s ease-in-out infinite;
+    }
+}
+
+@keyframes mobileGradientShift {
+    0%, 100% {
+        background-position: 0% 50%;
+    }
+    25% {
+        background-position: 50% 0%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    75% {
+        background-position: 50% 100%;
+    }
+}
+
+/* ===========================================
+   BROWSER SUPPORT AND FALLBACKS
+   =========================================== */
+
+/* Fallback for browsers without background-clip support */
+@supports not (-webkit-background-clip: text) {
+    .hero-text h1,
+    .hero-text-progressive h1 {
+        background: none !important;
+        color: #AF6A4C !important;
+        -webkit-text-fill-color: #AF6A4C !important;
+    }
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+    .hero-text h1,
+    .hero-text-progressive h1 {
+        background: none !important;
+        color: #AF6A4C !important;
+        -webkit-text-fill-color: #AF6A4C !important;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8) !important;
+    }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    .hero-text h1,
+    .hero-text-progressive h1 {
+        animation: none !important;
+    }
+}
+
+/* ===========================================
+   USAGE INSTRUCTIONS
+   =========================================== */
+
+/*
+HTML Usage:
+
+Method 1 - Direct fix:
+<h1 class="hero-text">Your Gradient Text</h1>
+
+Method 2 - Progressive enhancement:
+<h1 class="hero-text-progressive">Your Gradient Text</h1>
+
+Method 3 - With debugging:
+<h1 class="hero-text gradient-test" data-size="2.2em" data-screen="mobile">Test Text</h1>
+
+The key insight: Mobile needs BRIGHTER gradients because compression 
+makes dark colors dominate. We progressively lighten the gradient 
+as screen size decreases.
+*/
