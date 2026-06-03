@@ -1,0 +1,158 @@
+# Advanced Media Protection for Gottlich Website
+# This .htaccess file provides server-side protection for images and videos
+
+# Enable mod_rewrite
+RewriteEngine On
+
+# ============================================
+# MAINTENANCE MODE - ENABLED
+# ============================================
+# Redirect all requests to maintenance page
+RewriteCond %{REQUEST_URI} !^/maintenance\.html$
+RewriteCond %{REQUEST_URI} !\.(css|js|png|jpg|jpeg|gif|svg|ico)$
+RewriteRule ^(.*)$ /maintenance.html [L,R=503]
+
+# Return 503 Service Unavailable header
+<IfModule mod_headers.c>
+    Header always set Retry-After "3600"
+</IfModule>
+# ============================================
+
+# Security Headers
+<IfModule mod_headers.c>
+    # Prevent hotlinking of images
+    Header always set X-Frame-Options "SAMEORIGIN"
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set X-XSS-Protection "1; mode=block"
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+    
+    # Disable caching for sensitive images
+    <FilesMatch "\.(jpg|jpeg|png|gif|webp|svg|mp4|webm|mov)$">
+        Header set Cache-Control "no-store, no-cache, must-revalidate, max-age=0"
+        Header set Pragma "no-cache"
+        Header set Expires "Thu, 01 Jan 1970 00:00:00 GMT"
+    </FilesMatch>
+</IfModule>
+
+# Prevent hotlinking - only allow access from your domain
+RewriteCond %{HTTP_REFERER} !^$
+RewriteCond %{HTTP_REFERER} !^https?://(www\.)?yourdomain\.com [NC]
+RewriteCond %{HTTP_REFERER} !^https?://(www\.)?gottlich\.com [NC]
+RewriteRule \.(jpg|jpeg|png|gif|webp|svg|mp4|webm|mov)$ - [F,L]
+
+# Redirect direct image access to secure handler
+RewriteCond %{REQUEST_FILENAME} \.(jpg|jpeg|png|gif|webp)$ [NC]
+RewriteCond %{HTTP_REFERER} ^https?://(www\.)?yourdomain\.com [NC]
+RewriteRule ^(.+\.(jpg|jpeg|png|gif|webp))$ secure-image.php?img=$1 [L,QSA]
+
+# Block access to image directories for bots
+RewriteCond %{HTTP_USER_AGENT} (bot|crawler|spider|scraper|wget|curl) [NC]
+RewriteRule \.(jpg|jpeg|png|gif|webp|svg|mp4|webm|mov)$ - [F,L]
+
+# Prevent access to original image files directly
+<FilesMatch "\.(jpg|jpeg|png|gif|webp|svg)$">
+    <RequireAll>
+        Require all denied
+        # Allow access only from your domain
+        Require expr "%{HTTP_REFERER} =~ m#^https?://(www\.)?yourdomain\.com#i"
+        Require expr "%{HTTP_REFERER} =~ m#^https?://(www\.)?gottlich\.com#i"
+    </RequireAll>
+</FilesMatch>
+
+# Block common download tools
+RewriteCond %{HTTP_USER_AGENT} ^.*(wget|curl|libwww-perl|python|nikto|scan|java|winhttp|clshttp|loader) [NC,OR]
+RewriteCond %{HTTP_USER_AGENT} ^.*(httrack|harvest|extract|grab|miner) [NC]
+RewriteRule . - [F,L]
+
+# Prevent access to sensitive files
+<FilesMatch "\.(htaccess|htpasswd|ini|log|sh|inc|bak|backup|old)$">
+    Require all denied
+</FilesMatch>
+
+# Disable directory browsing
+Options -Indexes
+
+# Prevent access to PHP files in image directories
+<FilesMatch "^(images|category|slider)/.*\.php$">
+    Require all denied
+</FilesMatch>
+
+# Rate limiting for image requests (if mod_evasive is available)
+<IfModule mod_evasive24.c>
+    DOSHashTableSize    2048
+    DOSPageCount        10
+    DOSPageInterval     1
+    DOSSiteCount        50
+    DOSSiteInterval     1
+    DOSBlockingPeriod   600
+</IfModule>
+
+# Compress images for faster loading while maintaining protection
+<IfModule mod_deflate.c>
+    <FilesMatch "\.(css|js|png|jpg|jpeg|gif|ico|svg)$">
+        SetOutputFilter DEFLATE
+    </FilesMatch>
+</IfModule>
+
+# Set proper MIME types
+<IfModule mod_mime.c>
+    AddType image/webp .webp
+    AddType video/webm .webm
+    AddType video/mp4 .mp4
+</IfModule>
+
+# Additional security for video files
+<FilesMatch "\.(mp4|webm|mov|avi|flv)$">
+    <RequireAll>
+        Require all denied
+        # Allow access only from your domain
+        Require expr "%{HTTP_REFERER} =~ m#^https?://(www\.)?yourdomain\.com#i"
+        Require expr "%{HTTP_REFERER} =~ m#^https?://(www\.)?gottlich\.com#i"
+    </RequireAll>
+</FilesMatch>
+
+# Prevent embedding in iframes from other domains
+<IfModule mod_headers.c>
+    Header always append X-Frame-Options SAMEORIGIN
+    Header always append Content-Security-Policy "frame-ancestors 'self'"
+</IfModule>
+
+# Block requests with suspicious query strings
+RewriteCond %{QUERY_STRING} (base64_encode|base64_decode|encode|decode) [NC,OR]
+RewriteCond %{QUERY_STRING} (boot\.ini|etc/passwd|self/environ) [NC,OR]
+RewriteCond %{QUERY_STRING} (thumbs?(_editor|open)?|tim(thumb)?)\.php [NC,OR]
+RewriteCond %{QUERY_STRING} (\'|%27|%22|%3C|%3E|%00) [NC]
+RewriteRule .* - [F,L]
+
+# Prevent access to backup and temporary files
+<FilesMatch "\.(bak|backup|old|orig|original|tmp|temp|~)$">
+    Require all denied
+</FilesMatch>
+
+# Custom error pages to hide server information
+ErrorDocument 403 /403.html
+ErrorDocument 404 /404.html
+ErrorDocument 500 /500.html
+
+# Hide server signature
+ServerSignature Off
+
+# Prevent access to version control directories
+<DirectoryMatch "\.git">
+    Require all denied
+</DirectoryMatch>
+
+# Additional protection for high-value images
+<Directory "images/slider">
+    <RequireAll>
+        Require all denied
+        Require expr "%{HTTP_REFERER} =~ m#^https?://(www\.)?yourdomain\.com#i"
+    </RequireAll>
+</Directory>
+
+<Directory "images/category">
+    <RequireAll>
+        Require all denied
+        Require expr "%{HTTP_REFERER} =~ m#^https?://(www\.)?yourdomain\.com#i"
+    </RequireAll>
+</Directory>
