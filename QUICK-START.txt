@@ -1,0 +1,53 @@
+═══════════════════════════════════════════════════════════════
+  🚀 GOTTLICH HARDWARE - QUICK START
+═══════════════════════════════════════════════════════════════
+
+✅ EVERYTHING READY! Just upload to server.
+
+═══════════════════════════════════════════════════════════════
+  STEP 1: LOGIN TO HOSTINGER
+═══════════════════════════════════════════════════════════════
+
+URL:      https://hpanel.hostinger.com/
+Email:    gujaratsunmicasurat@gmail.com
+Password: Gujarat@7412
+
+═══════════════════════════════════════════════════════════════
+  STEP 2: UPLOAD FILES
+═══════════════════════════════════════════════════════════════
+
+Go to: Websites → gottlichhardware.com → File Manager
+
+Upload these 3 items to /public_html:
+
+1. admin-panel.zip (then extract) OR admin/ folder
+2. .htaccess (replace existing)
+3. maintenance.html (new file)
+
+═══════════════════════════════════════════════════════════════
+  STEP 3: ACCESS ADMIN
+═══════════════════════════════════════════════════════════════
+
+URL:      https://gottlichhardware.com/admin/
+Username: admin
+Password: Gottlich@2024
+
+⚠️  Change password after login!
+
+═══════════════════════════════════════════════════════════════
+  STEP 4: TOGGLE MAINTENANCE
+═══════════════════════════════════════════════════════════════
+
+In admin panel:
+- Click "Maintenance Mode"
+- Toggle ON
+- Save
+- Done! ✅
+
+═══════════════════════════════════════════════════════════════
+
+Files location: /Users/hanzalaqureshi/Sites/JioCloud/gottlich/gottlich/
+
+Detailed guide: DEPLOYMENT-GUIDE.md
+
+═══════════════════════════════════════════════════════════════
