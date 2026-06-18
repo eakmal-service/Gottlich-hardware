@@ -1,0 +1,30 @@
+# Protect admin directory with password (optional)
+# AuthType Basic
+# AuthName "Admin Area"
+# AuthUserFile /path/to/.htpasswd
+# Require valid-user
+
+# Block access to sensitive files
+<FilesMatch "\.(json|log|bak)$">
+    Require all denied
+</FilesMatch>
+
+# Enable PHP
+AddType application/x-httpd-php .php
+
+# Error handling
+php_flag display_errors off
+php_flag log_errors on
+
+# Security headers
+<IfModule mod_headers.c>
+    Header set X-Content-Type-Options "nosniff"
+    Header set X-Frame-Options "DENY"
+    Header set X-XSS-Protection "1; mode=block"
+</IfModule>
+
+# Prevent directory listing
+Options -Indexes
+
+# Default document
+DirectoryIndex index.php

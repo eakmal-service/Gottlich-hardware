@@ -9,6 +9,7 @@ RewriteEngine On
 # ============================================
 # Redirect all requests to maintenance page
 RewriteCond %{REQUEST_URI} !^/maintenance\.html$
+RewriteCond %{REQUEST_URI} !^/admin/
 RewriteCond %{REQUEST_URI} !\.(css|js|png|jpg|jpeg|gif|svg|ico)$
 RewriteRule ^(.*)$ /maintenance.html [L,R=503]
 
